@@ -1,7 +1,7 @@
 
 @font-face{
    font-family: poppins-light;
-   src:url('../fonts/poppins/Poppins-Light.ttf')
+   src:url('../fonts/poppins/Poppins-Light.ttf');
 }
 
 @font-face{
@@ -41,10 +41,6 @@ header{
    width: 100%;
 }
 
-nav{
-   display: flex;
-}
-
 button{
    font-family: 'poppins-light';
    border: none;
@@ -60,6 +56,10 @@ canvas{
    cursor: grab;
 }
 
+a{
+   text-decoration: none;
+   color: black;
+}
 
 /* Layout */
 
@@ -72,7 +72,6 @@ canvas{
 /* Header Bar */
 
 .header-container{
-   display: flex;
    justify-content: space-between;
    align-items: center;
 }
@@ -143,7 +142,6 @@ section{
 }
 
 .filter-bar{
-   display: flex;
    flex-direction: column;
    justify-content: space-between;
    gap: 15px;
@@ -152,7 +150,6 @@ section{
 
 .filter-bar>*{
    flex-basis: 50%;
-   display: flex;
    justify-content: space-between;
    align-items: center;
    gap: 20px ;
@@ -190,10 +187,9 @@ section{
 .filter-words-container{
    background-color: #87898d;
    border-radius: 4em;
-   display: flex;
+   flex-grow: 1;
    align-items: center;
    padding: 9px 26px;
-   flex-grow: 1;
    box-shadow: var(--box-shadow);
 }
 
@@ -212,6 +208,11 @@ section{
    text-shadow: 0 0 8px white;
 }
 
+.categories-not-all{
+   flex-grow: 1;
+   justify-content: space-between;
+}
+
 .more-btn{
    background:var(--main-gradient);
    margin: auto;
@@ -219,9 +220,24 @@ section{
    color: white;
    font-size: 1.098rem;
    box-shadow: var(--box-shadow);
+   transition: transform 0.3s;
 }
 
-@media(min-width:850px){
+.more-btn:hover{
+   transform: scale(1.1);
+}
+
+.all-btn{
+   font-size:1rem;
+   flex-basis: 7%;
+}
+
+.images-container p{
+   color: white;
+   font-size: 1.098rem;;
+}
+
+@media(min-width:960px){
    .filter-bar{
       flex-direction: row;
    }
@@ -234,6 +250,7 @@ section{
 .images-container{
    padding: 35px 39px 15px 42px;
    display: grid;
+   align-items: center;
    gap: 30px;
    grid-template-columns: repeat(auto-fill ,minmax(200px ,1fr));
 }
@@ -322,21 +339,42 @@ body.background::before {
 
 .editor{
    justify-content: space-around;
+   /* margin-top: 100px; */
+   /* height: 500px;
+   align-items: center; */
 }
 
 .editor>*{
    max-width: 500px;
-   flex-wrap: wrap;
 }
 
 .tools-bar{
+   flex-direction: column;
+   align-items: center;
+   padding: 14px;
+   margin: 6px; /*pp:12px*/
    background-color: rgba(255, 255, 255, 0.082);
    border-radius: 25px;
-   padding: 14px;
-   margin: 12px;
 }
 
+.font-edit{
+   display: grid;
+   grid-template-columns: repeat(5,1fr);
+   grid-template-rows: repeat(2,1fr);
+   align-items: center;
+   justify-items: center;
+}
 
+select[name="fontFam"]{
+   grid-column: 1/4;
+}
+
+@media(max-width:840px){
+   .editor{
+      flex-direction: column;
+      align-items: center;
+   }
+}
 
 /* Helpers */
 
@@ -344,3 +382,6 @@ body.background::before {
    display:none;
 }
 
+.flex{
+   display: flex;
+}

@@ -15,10 +15,10 @@
 
    <!-- HEADER -->
    <header>
-      <div class="header-container main-layout">
-         <img class="logo" src="images/LOGO.png">
+      <div class="header-container main-layout flex">
+         <img class="logo" src="./images/LOGO.png">
          <button class="fas fa-bars hidden" onclick="onToggleMenu()"></button>
-         <nav>
+         <nav class="flex">
             <button class="fas fa-times hidden" onclick="onToggleMenu() "></button>
             <button>Gallery</button>
             <button>About</button>
@@ -28,14 +28,17 @@
 
    <!-- GALLERY SECTION -->
    <section class="gallery open">
-      <div class="filter-bar">
-         <div class="search-line">
+      <div class="filter-bar flex">
+         <div class="search-line flex">
             <input type="text" list="keywordsData" oninput="onKeyword(this.value)" placeholder="Search">
             <datalist id="keywordsData"></datalist>
             <i class="fas fa-search"></i>
          </div>
-         <div class="categories-container">
-            <div class="filter-words-container"><span style="font-size: 70px;">si</span></div>
+         <div class="categories-container flex">
+            <div class="filter-words-container flex">
+               <button class="all-btn" onclick="renderGallery()">All</button>
+               <div class="categories-not-all flex"></div>
+            </div>
             <button class="more-btn">More</button>
          </div>
       </div>
@@ -52,35 +55,51 @@
    <!-- EDITOR SECTION -->
    <section class="editor main-layout">
 
-      <canvas width="500" height="500" id="my-canvas" onclick="onClickCanvas(event)"></canvas>
+      <canvas width="500" height="500" id="my-canvas"></canvas>
 
-      <div class="tools-bar">
+      <div class="tools-bar flex">
          <input type="text" name="txt" oninput="onSetText(this.value)">
-         <label>Fill:<input type="color" name="fillC" oninput="onSetColor(this.value,'fillC')"></label>
-         <label>Stroke:<input type="color" name="strokeC" oninput="onSetColor(this.value,'strokeC')"></label>
-         <button onclick="onSetFontSize(5)">A+</button>
-         <button onclick="onSetFontSize(-5)">A-</button>
-         <button onclick="onSwitchLine()">Switch line</button>
-         <select name="fontFam" onchange="onSetFontFam(this.value)">
-            <option value="impact">Impact</option>
-            <option value="arial">Arial</option>
-            <option value="verdana">Verdana</option>
-            <option value="sylfaen">Sylfaen</option>
-            <option value="rockwell">Rockwell</option>
-         </select>
-         <button class="fas fa-align-left" onclick="onSetAlign('start')"></button>
-         <button class="fas fa-align-center" onclick="onSetAlign('center')"></button>
-         <button class="fas fa-align-right" onclick="onSetAlign('end')"></button>
-         <button onclick="onAddLine()">Add line</button>
-         <button onclick="onDeleteLine()">Delete line</button>
-         <button><a href="#" onclick="onDownloadMeme(this)">download</a></button>
-         <button onclick="onUploadMeme(this)">upload facebook</a></button>
+         <div class="line-edit">
+            <button onclick="onSwitchLine()" class="fas fa-random editor-btn"></button>
+            <button onclick="onAddLine()" class="fas fa-plus editor-btn"></button>
+            <button onclick="onDeleteLine()" class="fas fa-trash-alt editor-btn"></button>
+         </div>
+         <div class="font-edit">
+            <button onclick="onSetFontSize(5)" class="fas fa-expand-alt editor-btn"></button>
+            <button onclick="onSetFontSize(-5)" class="fas fa-compress-alt editor-btn"></button>
+            <button class="fas fa-align-left editor-btn" onclick="onSetAlign('start')"></button>
+            <button class="fas fa-align-center editor-btn" onclick="onSetAlign('center')"></button>
+            <button class="fas fa-align-right editor-btn" onclick="onSetAlign('end')"></button>
+            <select name="fontFam" class="editor-btn editor-btn-lg" onchange="onSetFontFam(this.value)">
+               <option value="impact">Impact</option>
+               <option value="arial">Arial</option>
+               <option value="verdana">Verdana</option>
+               <option value="sylfaen">Sylfaen</option>
+               <option value="rockwell">Rockwell</option>
+            </select>
+            <input class="fas fa-fill-drip editor-btn" type="color" name="fillC"
+               oninput="onSetColor(this.value,'fillC')">
+            <input class="far fa-square editor-btn" type="color" name="strokeC"
+               oninput="onSetColor(this.value,'strokeC')">
+         </div>
+         <div class="stickers-container flex">
+            <button class="fas fa-chevron-left" onclick="onScrollStickers(-1)"></button>
+            <div class="stickers-display"></div>
+            <button class="fas fa-chevron-right" onclick="onScrollStickers(1)"></button>
+         </div>
+         <div class="share-btns">
+            <button><a href="#" class="fas fa-download editor-btn editor-btn-lg"
+                  onclick="onDownloadMeme(this)">download</a></button>
+            <button class="fas fa-share-alt editor-btn editor-btn-lg" onclick="onUploadMeme(this)">upload
+               facebook</a></button>
+         </div>
       </div>
 
    </section>
 
 
    <div class="main-screen"></div>
+   <img class="test-img">
 
    <script src="./js/services/upload.service.js"></script>
    <script src="./js/services/gallery.service.js"></script>

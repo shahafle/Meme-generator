@@ -9,14 +9,29 @@ function onInit() {
 
 function renderGallery(keyword) {
    const imgs = getImgsForDisplay(keyword)
-   const imgsHTMLs = imgs.map(img => {
-      return `<img class="gallery-img" src="${img.url}" onclick="onImgSelect(${img.id})">`
+   let imgsHTMLs = imgs.map(img => {
+      return `<img class="gallery-img" src="./images/memes/${img.id}.jpg" onclick="onImgSelect(${img.id})">`
    })
+   if (!imgs.length) imgsHTMLs = ['<p>No results found...</p>'];
    document.querySelector('.images-container').innerHTML = imgsHTMLs.join('');
+   if (!keyword) document.querySelector('.search-line input').value = '';
+}
+
+function renderKeywords() {
+   const keywordsSet = getKeywords();
+   let datalistHTMLs = '';
+   let keywordsFilter = [];
+   keywordsSet.forEach((keyword, i) => {
+      datalistHTMLs += `<option value="${keyword.name}"></option>`
+      keywordsFilter.push(`<button style="font-size: ${keyword.searchCount * 0.5 + 13}px;" onclick="onKeyword('${keyword.name}')">${keyword.name}</button>`)
+   })
+   document.querySelector('#keywordsData').innerHTML = datalistHTMLs;
+   document.querySelector('.categories-not-all').innerHTML = keywordsFilter.slice(0, 6).join('');
 }
 
 function onKeyword(keyword) {
    updateKeywordCount(keyword);
+   document.querySelector('.search-line input').value = keyword;
    renderKeywords();
    renderGallery(keyword);
 }

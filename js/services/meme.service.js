@@ -1,7 +1,6 @@
 'use strict'
 
 let isSecLine = true;
-
 let gMeme = {
    selectedImgId: 5,
    selectedLineIdx: 0,
@@ -60,9 +59,9 @@ function setAlign(align) {
    gMeme.lines[gMeme.selectedLineIdx].pos.x = x;
 }
 
-function addLine() {
+function addLine(txt = '*meme text*') {
    const line = {
-      txt: '*meme text*',
+      txt,
       size: 40,
       align: 'center',
       pos: {
@@ -74,9 +73,10 @@ function addLine() {
       strokeC: '#000000',
       isDrag: false
    }
-   if (isSecLine) line.pos.y = 400;
+   if (isSecLine) line.pos.y = gCanvas.height - 50;
    isSecLine = false;
    gMeme.lines.push(line);
+   switchLine(gMeme.lines.length - 1);
 }
 
 function deleteLine() {
@@ -111,10 +111,12 @@ function isLineClicked(pos) {
 }
 
 function setLineDrag(isDrag) {
+   if (gMeme.selectedLineIdx < 0) return;
    gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag;
 }
 
 function getLine() {
+   if (gMeme.selectedLineIdx < 0) return false;
    return gMeme.lines[gMeme.selectedLineIdx];
 }
 

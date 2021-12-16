@@ -4,14 +4,30 @@ let gCanvas;
 let gCtx;
 let gStartPos;
 const gTouchEvs = ['touchmove', 'tuochend', 'touchstart'];
+const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼']
+let gStickersIdx = 0;
+
 
 function initMeme(imgId) {
    gCanvas = document.querySelector('#my-canvas');
+   setCanvasHeight(imgId);
    gCtx = gCanvas.getContext('2d');
    addMouseListeners();
    addTouchListeners();
+   renderStickers()
    setImg(imgId);
    renderMeme();
+}
+
+function setCanvasHeight(imgId) {
+   const imgSrc = getElImgById(imgId).src;
+   const elTestImg = document.querySelector('.test-img');
+   elTestImg.src = imgSrc;
+   const imgWidth = elTestImg.offsetWidth;
+   const imgHeight = elTestImg.offsetHeight;
+   const CanvasHeight = (imgHeight * 500) / imgWidth;
+   gCanvas.height = CanvasHeight;
+   elTestImg.style.display = 'none'
 }
 
 function addMouseListeners() {
@@ -29,7 +45,11 @@ function addTouchListeners() {
 function onDown(ev) {
    const pos = getEvPos(ev);
    const clickedLineIdx = isLineClicked(pos);
-   if (clickedLineIdx < 0) return;
+   if (clickedLineIdx < 0) {
+      switchLine(-1);
+      renderMeme();
+      return;
+   }
    switchLine(clickedLineIdx);
    setLineDrag(true);
    gStartPos = pos;
@@ -51,6 +71,7 @@ function onMove(ev) {
 function onUp() {
    setLineDrag(false);
    gCanvas.style.cursor = 'grab'
+   document.querySelector('input[name="txt"]').focus();
 }
 
 function renderMeme() {
@@ -58,8 +79,10 @@ function renderMeme() {
    const elImg = getElImgById(meme.selectedImgId)
    gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height);
    if (meme.lines.length) {
-      meme.lines.forEach(line => drawLine(line))
-      markSelectedLine(meme.lines[meme.selectedLineIdx]);
+      meme.lines.forEach((line, i) => {
+         drawLine(line);
+         if (i === meme.selectedLineIdx && meme.selectedLineIdx >= 0) markSelectedLine(meme.lines[meme.selectedLineIdx]);
+      })
    }
 }
 
@@ -67,7 +90,7 @@ function markSelectedLine(line) {
    const x = line.pos.x;
    const y = line.pos.y;
    const lineHeight = line.size + 20;
-   const lineWidth = gCtx.measureText(line.txt).width * (line.size / 40);
+   const lineWidth = gCtx.measureText(line.txt).width;
    gCtx.beginPath();
    if (line.align === 'start') {
       gCtx.rect(x, y - (lineHeight / 2), lineWidth, lineHeight);
@@ -90,20 +113,6 @@ function renderLineValues(line) {
    }
 }
 
-function onClickCanvas(ev) {
-   const { offsetX, offsetY } = getEvPos(ev);
-   const meme = getMeme();
-   const lineIdx = meme.lines.findIndex(line => {
-      const y = line.pos.y;
-      const lineHeight = line.size + 20;
-      return ((y - (lineHeight / 2)) < offsetY &&
-         (y + (lineHeight / 2)) > offsetY)
-   })
-   if (lineIdx < 0) return;
-   switchLine(lineIdx);
-   renderMeme();
-}
-
 function onSetText(txt) {
    setLineTxt(txt);
    renderMeme();
@@ -122,7 +131,7 @@ function onSetFontSize(diff) {
 function onSwitchLine() {
    switchLine();
    renderMeme();
-   document.focus = document.querySelector('input[name="txt"]')
+   document.querySelector('input[name="txt"]').focus();
 }
 
 function onSetFontFam(fontFam) {
@@ -158,10 +167,31 @@ function drawLine(line) {
    gCtx.strokeText(line.txt, x, y);
 }
 
+function renderStickers() {
+   let strHTMLs = '';
+   for (var i = gStickersIdx; i < gStickersIdx + 3; i++) {
+      strHTMLs += `<button class="sticker" onclick="onStickerClick('${gStickers[i]}')">${gStickers[i]}</button>`
+   }
+   document.querySelector('.stickers-display').innerHTML = strHTMLs;
+}
+
+function onScrollStickers(diff) {
+   const stickersIdx = gStickersIdx + diff;
+   if (stickersIdx < 0) gStickersIdx = gStickers.length - 3;
+   else if (stickersIdx > (gStickers.length - 3)) gStickersIdx = 0;
+   else gStickersIdx = stickersIdx;
+   renderStickers();
+}
+
+function onStickerClick(sticker) {
+   addLine(sticker);
+   renderMeme();
+}
+
 function onDownloadMeme(elLink) {
-   const data = gCanvas.toDataURL()
-   elLink.href = data
-   elLink.download = 'my-meme.jpg'
+   const data = gCanvas.toDataURL();
+   elLink.href = data;
+   elLink.download = 'my-meme.jpg';
 }
 
 function onUploadMeme() {
