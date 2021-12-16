@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Meme Generator</title>
+   <!-- Font Awesome -->
+   <script src="https://kit.fontawesome.com/362d0183c1.js" crossorigin="anonymous"></script>
+   <!-- ///////////////////ADD FAVICON!!!!///////////////////////// -->
+   <!-- CSS Stylesheets -->
+   <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body onload="onInit()">
+
+   <!-- HEADER -->
+   <header>
+      <div class="header-container main-layout">
+         <img class="logo" src="images/LOGO.png">
+         <button class="fas fa-bars hidden" onclick="onToggleMenu()"></button>
+         <nav>
+            <button class="fas fa-times hidden" onclick="onToggleMenu() "></button>
+            <button>Gallery</button>
+            <button>About</button>
+         </nav>
+      </div>
+   </header>
+
+   <!-- GALLERY SECTION -->
+   <section class="gallery open">
+      <div class="filter-bar">
+         <div class="search-line">
+            <input type="text" list="keywordsData" oninput="onKeyword(this.value)" placeholder="Search">
+            <datalist id="keywordsData"></datalist>
+            <i class="fas fa-search"></i>
+         </div>
+         <div class="categories-container">
+            <div class="filter-words-container"><span style="font-size: 70px;">si</span></div>
+            <button class="more-btn">More</button>
+         </div>
+      </div>
+
+      <div class="images-container">
+
+      </div>
+   </section>
+
+
+
+
+
+   <!-- EDITOR SECTION -->
+   <section class="editor main-layout">
+
+      <canvas width="500" height="500" id="my-canvas" onclick="onClickCanvas(event)"></canvas>
+
+      <div class="tools-bar">
+         <input type="text" name="txt" oninput="onSetText(this.value)">
+         <label>Fill:<input type="color" name="fillC" oninput="onSetColor(this.value,'fillC')"></label>
+         <label>Stroke:<input type="color" name="strokeC" oninput="onSetColor(this.value,'strokeC')"></label>
+         <button onclick="onSetFontSize(5)">A+</button>
+         <button onclick="onSetFontSize(-5)">A-</button>
+         <button onclick="onSwitchLine()">Switch line</button>
+         <select name="fontFam" onchange="onSetFontFam(this.value)">
+            <option value="impact">Impact</option>
+            <option value="arial">Arial</option>
+            <option value="verdana">Verdana</option>
+            <option value="sylfaen">Sylfaen</option>
+            <option value="rockwell">Rockwell</option>
+         </select>
+         <button class="fas fa-align-left" onclick="onSetAlign('start')"></button>
+         <button class="fas fa-align-center" onclick="onSetAlign('center')"></button>
+         <button class="fas fa-align-right" onclick="onSetAlign('end')"></button>
+         <button onclick="onAddLine()">Add line</button>
+         <button onclick="onDeleteLine()">Delete line</button>
+         <button><a href="#" onclick="onDownloadMeme(this)">download</a></button>
+         <button onclick="onUploadMeme(this)">upload facebook</a></button>
+      </div>
+
+   </section>
+
+
+   <div class="main-screen"></div>
+
+   <script src="./js/services/upload.service.js"></script>
+   <script src="./js/services/gallery.service.js"></script>
+   <script src="./js/services/meme.service.js"></script>
+   <script src="./js/gallery.controller.js"></script>
+   <script src="./js/meme.controller.js"></script>
+</body>
+
+</html>
