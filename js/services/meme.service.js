@@ -28,14 +28,17 @@ function setImg(imgId) {
 }
 
 function setLineTxt(txt) {
+   if (gMeme.selectedLineIdx < 0) return;
    gMeme.lines[gMeme.selectedLineIdx].txt = txt;
 }
 
 function setColor(color, part) {
+   if (gMeme.selectedLineIdx < 0) return;
    gMeme.lines[gMeme.selectedLineIdx][part] = color;
 }
 
 function setFontSize(diff) {
+   if (gMeme.selectedLineIdx < 0) return;
    if ((gMeme.lines[gMeme.selectedLineIdx].size + diff) === 5 ||
       (gMeme.lines[gMeme.selectedLineIdx].size + diff) === 100) return;
    gMeme.lines[gMeme.selectedLineIdx].size += diff
@@ -47,10 +50,12 @@ function switchLine(lineIdx) {
 }
 
 function setFontFam(fontFam) {
+   if (gMeme.selectedLineIdx < 0) return;
    gMeme.lines[gMeme.selectedLineIdx].fontFam = fontFam;
 }
 
 function setAlign(align) {
+   if (gMeme.selectedLineIdx < 0) return;
    gMeme.lines[gMeme.selectedLineIdx].align = align;
    let x;
    if (align === 'start') x = 10;
@@ -80,6 +85,7 @@ function addLine(txt = '*meme text*') {
 }
 
 function deleteLine() {
+   if (gMeme.selectedLineIdx < 0) return;
    if (!gMeme.lines[gMeme.selectedLineIdx]) return;
    gMeme.lines.splice(gMeme.selectedLineIdx, 1);
    gMeme.selectedLineIdx = 0;
@@ -90,7 +96,14 @@ function isLineClicked(pos) {
       const x = line.pos.x;
       const y = line.pos.y;
       const lineHeight = line.size + 20;
-      const lineWidth = gCtx.measureText(line.txt).width * (line.size / 40);
+      const lineWidth = gCtx.measureText(line.txt).width;;
+      // console.log('pos.x', pos.x);
+      // console.log('pos.y', pos.y);
+      // console.log('x', x);
+      // console.log('y', y);
+      // console.log('lineHeight', lineHeight);
+      // console.log('lineWidth', lineWidth);
+      // console.log(pos.y < (y - (lineHeight / 2)) + lineHeight);
       if (line.align === 'start') {
          return (pos.x > x &&
             pos.y > (y - (lineHeight / 2)) &&
