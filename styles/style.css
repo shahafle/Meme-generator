@@ -256,14 +256,10 @@ nav button:hover, nav button.active{
 .file-input{
    background-color: #22252c;
    color: white;
-   /* justify-self: center; */
    align-self: stretch;
-   /* text-align: center; */
-   /* padding: auto; */
    display: flex;
    justify-content: center;
    align-items: center;
-   /* align-content: center; */
 }
 
 .gallery input[type="file"]{
@@ -494,7 +490,7 @@ select[name="fontFam"]{
 }
 
 .share-btns{
-   gap: 18px;
+   gap: 10px;
    align-self: stretch;
    justify-content: space-between;
 }
@@ -503,11 +499,17 @@ select[name="fontFam"]{
    flex:1;
    color: white;
    font-size: 1.3rem;
+   padding: 5px;
 }
 
 .share-btn{
    background-color: #8f44bb;
    box-shadow:inset 0px -3px 1px #632687,inset 0px 3px 1px #bf84da;
+}
+
+.save-btn{
+   background-color: rgb(57,189,77);
+   box-shadow:inset 0px -3px 1px #015d33,inset 0px 3px 1px #5fd374;
 }
 
 .download-btn{

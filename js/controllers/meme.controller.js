@@ -4,7 +4,7 @@ let gCanvas;
 let gCtx;
 let gStartPos;
 const gTouchEvs = ['touchmove', 'tuochend', 'touchstart'];
-const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼']
+const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼', '']
 let gStickersIdx = 0;
 
 
@@ -193,14 +193,28 @@ function onStickerClick(sticker) {
 }
 
 function onDownloadMeme(elLink) {
+   switchLine(-1);
+   renderMeme();
    const data = gCanvas.toDataURL();
    elLink.href = data;
    elLink.download = 'my-meme.jpg';
 }
 
 function onUploadMeme() {
+   switchLine(-1);
+   renderMeme();
    uploadMeme();
 }
+
+function onSaveMeme() {
+   switchLine(-1);
+   renderMeme();
+   const MemeData = gCanvas.toDataURL();
+   saveMeme(MemeData);
+   navigateTo('saved');
+   renderSaved();
+}
+
 
 function getElImgById(imgId) {
    return document.querySelector(`[src="./images/memes/${imgId}.jpg"]`)

@@ -1,8 +1,11 @@
 'use strict'
 
+const MEMES = 'memesDATA';
+
 let isSecLine = true;
+let gMemesDATAs;
 let gMeme = {
-   selectedImgId: 5,
+   selectedImgId: 0,
    selectedLineIdx: 0,
    lines: [{
       txt: 'Insert Your text here...',
@@ -97,13 +100,6 @@ function isLineClicked(pos) {
       const y = line.pos.y;
       const lineHeight = line.size + 20;
       const lineWidth = gCtx.measureText(line.txt).width;;
-      // console.log('pos.x', pos.x);
-      // console.log('pos.y', pos.y);
-      // console.log('x', x);
-      // console.log('y', y);
-      // console.log('lineHeight', lineHeight);
-      // console.log('lineWidth', lineWidth);
-      // console.log(pos.y < (y - (lineHeight / 2)) + lineHeight);
       if (line.align === 'start') {
          return (pos.x > x &&
             pos.y > (y - (lineHeight / 2)) &&
@@ -136,4 +132,26 @@ function getLine() {
 function moveLine(dx, dy) {
    gMeme.lines[gMeme.selectedLineIdx].pos.x += dx;
    gMeme.lines[gMeme.selectedLineIdx].pos.y += dy;
+}
+
+function loadMemes() {
+   gMemesDATAs = loadFromStorage(MEMES);
+   if (!gMemesDATAs) gMemesDATAs = [];
+}
+
+function saveMeme(MemeData) {
+   gMemesDATAs.push(MemeData);
+   saveToStorage(MEMES, gMemesDATAs);
+}
+
+function getMemesDATAs() {
+   return gMemesDATAs;
+}
+
+function resetMeme() {
+   gMeme = {
+      selectedImgId: 0,
+      selectedLineIdx: -1,
+      lines: []
+   }
 }

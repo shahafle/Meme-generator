@@ -1,7 +1,7 @@
 'use strict'
 
 
-function onInit() {
+function initGallery() {
    createKeywordsList();
    renderKeywords();
    renderGallery();
@@ -14,7 +14,7 @@ function renderGallery(keyword) {
    })
    if (!imgs.length) imgsHTMLs = ['<p>No results found...</p>'];
    imgsHTMLs.unshift('<label class="file-input gallery-img" name="image" onchange="onImgInput(event)"><span>+ Load photo</span><input type="file"/></label>')
-   document.querySelector('.images-container').innerHTML = imgsHTMLs.join('');
+   document.querySelector('.gallery .images-container').innerHTML = imgsHTMLs.join('');
    if (!keyword) document.querySelector('.search-line input').value = '';
 }
 

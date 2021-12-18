@@ -22,6 +22,7 @@
          <nav class="flex">
             <button class="fas fa-times hidden" onclick="onToggleMenu() "></button>
             <button onclick="navigateTo('gallery')">Gallery</button>
+            <button onclick="navigateTo('saved')">Saved</button>
             <button onclick="navigateTo('about')">About</button>
          </nav>
       </div>
@@ -87,7 +88,8 @@
          <div class="share-btns flex">
             <button class="share-btn editor-btn" onclick="onUploadMeme(this)"><i class="fas fa-share-alt"></i>
                Share</button>
-            <button class="editor-btn download-btn fas fa-download"><a href="#" onclick="onDownloadMeme(this)">
+            <button class="editor-btn save-btn" onclick="onSaveMeme()">Save</button>
+            <button class="editor-btn download-btn"><a href="#" onclick="onDownloadMeme(this)">
                   Download</a></button>
          </div>
       </div>
@@ -106,14 +108,23 @@
          start</button>
    </section>
 
+
+   <!-- SAVED -->
+   <section class="saved">
+      <div class="images-container"></div>
+   </section>
+
+
    <div class="main-screen"></div>
    <img class="test-img">
 
+   <script src="./js/services/storage.service.js"></script>
    <script src="./js/services/upload.service.js"></script>
    <script src="./js/services/gallery.service.js"></script>
    <script src="./js/services/meme.service.js"></script>
    <script src="./js/controllers/general.controller.js"></script>
    <script src="./js/controllers/gallery.controller.js"></script>
+   <script src="./js/controllers/saved.controller.js"></script>
    <script src="./js/controllers/meme.controller.js"></script>
 </body>
 
