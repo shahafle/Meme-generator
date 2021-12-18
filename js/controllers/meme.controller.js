@@ -74,7 +74,7 @@ function onMove(ev) {
 function onUp() {
    setLineDrag(false);
    gCanvas.style.cursor = 'grab'
-   document.querySelector('input[name="txt"]').focus();
+   // document.querySelector('input[name="txt"]').focus();
 }
 
 function renderMeme() {

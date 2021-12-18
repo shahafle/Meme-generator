@@ -91,7 +91,7 @@ function deleteLine() {
    if (gMeme.selectedLineIdx < 0) return;
    if (!gMeme.lines[gMeme.selectedLineIdx]) return;
    gMeme.lines.splice(gMeme.selectedLineIdx, 1);
-   gMeme.selectedLineIdx = 0;
+   if (!gMeme.lines.length) gMeme.selectedLineIdx = - 1;
 }
 
 function isLineClicked(pos) {
@@ -154,4 +154,9 @@ function resetMeme() {
       selectedLineIdx: -1,
       lines: []
    }
+}
+
+function deleteMeme(savedIdx) {
+   gMemesDATAs.splice(savedIdx, 1);
+   saveToStorage(MEMES, gMemesDATAs);
 }

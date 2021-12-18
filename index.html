@@ -18,7 +18,7 @@
    <header>
       <div class="header-container main-layout flex">
          <img class="logo" src="./images/LOGO.png">
-         <button class="fas fa-bars hidden" onclick="onToggleMenu()"></button>
+         <button class="fas fa-bars" onclick="onToggleMenu()"></button>
          <nav class="flex">
             <button class="fas fa-times hidden" onclick="onToggleMenu() "></button>
             <button class="gallery-btn active" onclick="navigateTo('gallery')">Gallery</button>
@@ -113,7 +113,7 @@
    </section>
 
 
-   <div class="main-screen"></div>
+   <div class="main-screen" onclick="onToggleMenu()"></div>
    <img class="test-img">
 
    <script src="./js/services/storage.service.js"></script>
