@@ -4,7 +4,7 @@ let gCanvas;
 let gCtx;
 let gStartPos;
 const gTouchEvs = ['touchmove', 'tuochend', 'touchstart'];
-const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼', '']
+const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼', '👄']
 let gStickersIdx = 0;
 
 

@@ -94,6 +94,7 @@ nav button{
    transition: background-color .3s;
 }
 
+
 nav button:hover, nav button.active{
    background-color: white;
    color: #21ac91;
@@ -131,7 +132,6 @@ nav button:hover, nav button.active{
 /* Filter Line */
 
 .gallery{
-   /* display: block; */
    margin: 7px;
    background-color: #383b42;
    border-radius: 10px;
@@ -149,7 +149,6 @@ nav button:hover, nav button.active{
    flex-basis: 50%;
    justify-content: space-between;
    align-items: center;
-   gap: 20px ;
 }
 
 
@@ -165,8 +164,7 @@ nav button:hover, nav button.active{
    font-size: 1.301rem;
    padding: 0 25px;
    color:#76787c;
-   flex-grow: 1;
-}
+width: 100%;}
 
 .search-line input:focus-visible{
    outline: none;
@@ -181,6 +179,10 @@ nav button:hover, nav button.active{
    -webkit-text-fill-color: transparent;
 }
 
+.categories-container{
+   gap: 20px;
+}
+
 .filter-words-container{
    background-color: #87898d;
    border-radius: 4em;
@@ -188,6 +190,8 @@ nav button:hover, nav button.active{
    align-items: center;
    padding: 9px 26px;
    box-shadow: var(--box-shadow);
+   justify-content: space-around;
+   flex-wrap: wrap;
 }
 
 .filter-words-container button{
@@ -203,11 +207,6 @@ nav button:hover, nav button.active{
 
 .filter-words-container button:hover{
    text-shadow: 0 0 8px white;
-}
-
-.categories-not-all{
-   flex-grow: 1;
-   justify-content: space-between;
 }
 
 .special-btn{
@@ -226,15 +225,9 @@ nav button:hover, nav button.active{
 
 .all-btn{
    font-size:1rem;
-   flex-basis: 7%;
 }
 
-.images-container p{
-   color: white;
-   font-size: 1.098rem;;
-}
-
-@media(min-width:960px){
+@media(min-width:1040px){
    .filter-bar{
       flex-direction: row;
    }
@@ -245,13 +238,17 @@ nav button:hover, nav button.active{
 
 
 .images-container{
-   padding: 35px 39px 15px 42px;
+   padding: 35px 40px 15px;
    display: grid;
    align-items: center;
    gap: 30px;
    grid-template-columns: repeat(auto-fill ,minmax(200px ,1fr));
 }
 
+.images-container p{
+   color: white;
+   font-size: 1.098rem;;
+}
 
 .file-input{
    background-color: #22252c;
@@ -524,7 +521,7 @@ select[name="fontFam"]{
 }
 
 
-@media(max-width:960px){
+@media(max-width:1050px){
    .editor{
       flex-direction: column;
       align-items: center;
@@ -542,6 +539,25 @@ select[name="fontFam"]{
    margin: auto;
    color: white;
    padding: 15px;
+}
+
+@media(max-width:680px){
+   .about{
+      margin: 9px auto;
+   }
+}
+
+
+/* Saved */
+
+.saved{
+   margin: 10px;
+   background-color: #383b42;
+   border-radius: 10px;
+}
+
+.saved .images-container{
+   padding: 20px 40px;
 }
 
 

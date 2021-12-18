@@ -21,9 +21,9 @@
          <button class="fas fa-bars hidden" onclick="onToggleMenu()"></button>
          <nav class="flex">
             <button class="fas fa-times hidden" onclick="onToggleMenu() "></button>
-            <button onclick="navigateTo('gallery')">Gallery</button>
-            <button onclick="navigateTo('saved')">Saved</button>
-            <button onclick="navigateTo('about')">About</button>
+            <button class="gallery-btn active" onclick="navigateTo('gallery')">Gallery</button>
+            <button class="saved-btn" onclick="navigateTo('saved')">Saved</button>
+            <button class="about-btn" onclick="navigateTo('about')">About</button>
          </nav>
       </div>
    </header>
@@ -39,10 +39,8 @@
          </div>
          <div class="categories-container flex">
             <div class="filter-words-container flex">
-               <button class="all-btn" onclick="renderGallery()">All</button>
-               <div class="categories-not-all flex"></div>
             </div>
-            <button class="special-btn">More</button>
+            <button class="special-btn more-btn" onclick="onMoreKeywords(this)">More</button>
          </div>
       </div>
       <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)"> -->
@@ -110,7 +108,7 @@
 
 
    <!-- SAVED -->
-   <section class="saved">
+   <section class="saved hidden">
       <div class="images-container"></div>
    </section>
 

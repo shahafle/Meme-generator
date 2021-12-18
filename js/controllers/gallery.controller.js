@@ -8,6 +8,7 @@ function initGallery() {
 }
 
 function renderGallery(keyword) {
+   document.querySelector('.more-btn').innerText = 'More'
    const imgs = getImgsForDisplay(keyword)
    let imgsHTMLs = imgs.map(img => {
       return `<img class="gallery-img" src="./images/memes/${img.id}.jpg" onclick="onImgSelect(${img.id})">`
@@ -18,16 +19,18 @@ function renderGallery(keyword) {
    if (!keyword) document.querySelector('.search-line input').value = '';
 }
 
-function renderKeywords() {
+function renderKeywords(isMoreOpen) {
    const keywordsSet = getKeywords();
+   let keywordsNum = (isMoreOpen) ? keywordsSet.length : 8;
    let datalistHTMLs = '';
    let keywordsFilter = [];
-   keywordsSet.forEach((keyword, i) => {
+   keywordsSet.forEach(keyword => {
       datalistHTMLs += `<option value="${keyword.name}"></option>`
       keywordsFilter.push(`<button style="font-size: ${keyword.searchCount * 0.5 + 13}px;" onclick="onKeyword('${keyword.name}')">${keyword.name}</button>`)
    })
+   keywordsFilter.unshift('<button class="all-btn" onclick="renderGallery()">All</button>')
    document.querySelector('#keywordsData').innerHTML = datalistHTMLs;
-   document.querySelector('.categories-not-all').innerHTML = keywordsFilter.slice(0, 6).join('');
+   document.querySelector('.filter-words-container').innerHTML = keywordsFilter.slice(0, keywordsNum).join('');
 }
 
 function onKeyword(keyword) {
@@ -73,4 +76,10 @@ function loadImageFromInput(ev, onImageReady) {
 function openEditor() {
    navigateTo('editor');
    document.body.classList.add('background')
+}
+
+function onMoreKeywords(elMoreBtn) {
+   const isOpen = (elMoreBtn.innerText === 'More');
+   elMoreBtn.innerText = (isOpen) ? 'Less' : 'More';
+   renderKeywords(isOpen);
 }
