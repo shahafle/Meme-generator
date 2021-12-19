@@ -160,3 +160,18 @@ function deleteMeme(savedIdx) {
 function getSelectedLine() {
    return gMeme.lines[gMeme.selectedLineIdx];
 }
+
+function setLinesPos(centerX){
+   gMeme.lines.forEach(line => line.pos.x=centerX);
+}
+
+// function setFontResize(fontSizingFunc,gAspectRatio){
+//    gMeme.lines.forEach(line => line.size = fontSizingFunc(line.size , gAspectRatio));
+// }
+
+// function growFont(currFontSize,gAspectRatio){
+//    return currFontSize*(((gAspectRatio-1)/2)+1);
+// }
+// function shrinkFont(currFontSize,gAspectRatio){
+//    return currFontSize/(((gAspectRatio-1)/2)+1);
+// }

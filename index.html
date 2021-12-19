@@ -51,8 +51,9 @@
 
    <!-- EDITOR SECTION -->
    <section class="editor main-layout flex hidden">
-
-      <canvas width="500" height="500" id="my-canvas"></canvas>
+      <div class="canvas-container">
+         <canvas width="500" height="500" id="my-canvas"></canvas>
+      </div>
 
       <div class="tools-bar flex">
          <input type="text" name="txt" oninput="onSetText(this.value)">

@@ -6,6 +6,7 @@ let gStartPos;
 const gTouchEvs = ['touchmove', 'tuochend', 'touchstart'];
 const gStickers = ['💙', '😂', '😎', '😍', '👌🏼', '🤙🏼', '💪🏼', '👄']
 let gStickersIdx = 0;
+let gAspectRatio=1;
 
 
 function initMeme(imgId) {
@@ -17,6 +18,8 @@ function initMeme(imgId) {
    renderStickers()
    setImg(imgId);
    onLoadMeme()
+   resizeCanvas();
+   window.addEventListener('resize', () => resizeCanvas());
 }
 
 function setCanvasHeight(imgId) {
@@ -30,7 +33,8 @@ function setCanvasHeight(imgId) {
    const imgHeight = elTestImg.offsetHeight;
    const CanvasHeight = (imgHeight * 500) / imgWidth;
    gCanvas.height = CanvasHeight;
-   elTestImg.style.display = 'none'
+   elTestImg.style.display = 'none';
+   gAspectRatio=imgWidth/imgHeight;
 }
 
 function addMouseListeners() {
@@ -141,8 +145,12 @@ function markSelectedLine(line) {
 
 function renderLineValues(line) {
    const propsToIgnore = ['size', 'align', 'pos', 'isDrag']
+   console.log(line);
    Object.keys(line).forEach((prop) => {
-      if (!propsToIgnore.includes(prop)) document.querySelector(`.tools-bar [name="${prop}"]`).value = line[prop];
+      if (!propsToIgnore.includes(prop)) {
+         console.log(prop);
+      document.querySelector(`.tools-bar [name="${prop}"]`).value = line[prop];
+      }
    })
    // for (let prop in line) {
    //    if (propsToIgnore.includes(prop)) continue;
@@ -252,4 +260,15 @@ function getEvPos(ev) {
       pos = { x, y }
    }
    return pos
+}
+
+function resizeCanvas() {
+   var elContainer = document.querySelector('.canvas-container');
+   // const fontSizing=(gCanvas.width<elContainer.offsetWidth)?growFont:shrinkFont;
+   gCanvas.width = elContainer.offsetWidth;
+   gCanvas.height = gCanvas.width/gAspectRatio;
+   setLinesPos(gCanvas.width/2)
+   // gAspectRatio=gCanvas.width/gCanvas.height
+   // setFontResize(fontSizing,gAspectRatio);
+   renderMeme();
 }
