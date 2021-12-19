@@ -100,7 +100,7 @@ function updateKeywordCount(keywordSearched) {
 function getImgsForDisplay(keyword) {
    if (!keyword) return gImgs;
    return gImgs.filter(img => {
-      const regex = new RegExp('^' + keyword);
+      const regex = new RegExp('^' + keyword, 'm');
       return img.keywords.find(keyword => keyword.match(regex));
    });
 }

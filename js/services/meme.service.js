@@ -1,6 +1,6 @@
 'use strict'
 
-const MEMES = 'memesDATA';
+const STORAGE_MEMES = 'memesDATA';
 
 let isSecLine = true;
 let gMemesDATAs;
@@ -32,19 +32,20 @@ function setImg(imgId) {
 
 function setLineTxt(txt) {
    if (gMeme.selectedLineIdx < 0) return;
-   gMeme.lines[gMeme.selectedLineIdx].txt = txt;
+   getSelectedLine().txt = txt;
 }
 
 function setColor(color, part) {
    if (gMeme.selectedLineIdx < 0) return;
-   gMeme.lines[gMeme.selectedLineIdx][part] = color;
+   getSelectedLine()[part] = color;
 }
 
 function setFontSize(diff) {
+   const currLine = getSelectedLine();
    if (gMeme.selectedLineIdx < 0) return;
-   if ((gMeme.lines[gMeme.selectedLineIdx].size + diff) === 5 ||
-      (gMeme.lines[gMeme.selectedLineIdx].size + diff) === 100) return;
-   gMeme.lines[gMeme.selectedLineIdx].size += diff
+   if ((currLine.size + diff) === 5 ||
+      (currLine.size + diff) === 100) return;
+   currLine.size += diff
 }
 
 function switchLine(lineIdx) {
@@ -54,17 +55,17 @@ function switchLine(lineIdx) {
 
 function setFontFam(fontFam) {
    if (gMeme.selectedLineIdx < 0) return;
-   gMeme.lines[gMeme.selectedLineIdx].fontFam = fontFam;
+   getSelectedLine().fontFam = fontFam;
 }
 
 function setAlign(align) {
    if (gMeme.selectedLineIdx < 0) return;
-   gMeme.lines[gMeme.selectedLineIdx].align = align;
+   getSelectedLine().align = align;
    let x;
    if (align === 'start') x = 10;
    else if (align === 'center') x = gCanvas.width / 2;
    else if (align === 'end') x = gCanvas.width - 10;
-   gMeme.lines[gMeme.selectedLineIdx].pos.x = x;
+   getSelectedLine().pos.x = x;
 }
 
 function addLine(txt = '*meme text*') {
@@ -89,7 +90,7 @@ function addLine(txt = '*meme text*') {
 
 function deleteLine() {
    if (gMeme.selectedLineIdx < 0) return;
-   if (!gMeme.lines[gMeme.selectedLineIdx]) return;
+   if (!getSelectedLine()) return;
    gMeme.lines.splice(gMeme.selectedLineIdx, 1);
    if (!gMeme.lines.length) gMeme.selectedLineIdx = - 1;
 }
@@ -121,27 +122,22 @@ function isLineClicked(pos) {
 
 function setLineDrag(isDrag) {
    if (gMeme.selectedLineIdx < 0) return;
-   gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag;
-}
-
-function getLine() {
-   if (gMeme.selectedLineIdx < 0) return false;
-   return gMeme.lines[gMeme.selectedLineIdx];
+   getSelectedLine().isDrag = isDrag;
 }
 
 function moveLine(dx, dy) {
-   gMeme.lines[gMeme.selectedLineIdx].pos.x += dx;
-   gMeme.lines[gMeme.selectedLineIdx].pos.y += dy;
+   getSelectedLine().pos.x += dx;
+   getSelectedLine().pos.y += dy;
 }
 
 function loadMemes() {
-   gMemesDATAs = loadFromStorage(MEMES);
+   gMemesDATAs = loadFromStorage(STORAGE_MEMES);
    if (!gMemesDATAs) gMemesDATAs = [];
 }
 
 function saveMeme(MemeData) {
    gMemesDATAs.push(MemeData);
-   saveToStorage(MEMES, gMemesDATAs);
+   saveToStorage(STORAGE_MEMES, gMemesDATAs);
 }
 
 function getMemesDATAs() {
@@ -158,5 +154,9 @@ function resetMeme() {
 
 function deleteMeme(savedIdx) {
    gMemesDATAs.splice(savedIdx, 1);
-   saveToStorage(MEMES, gMemesDATAs);
+   saveToStorage(STORAGE_MEMES, gMemesDATAs);
+}
+
+function getSelectedLine() {
+   return gMeme.lines[gMeme.selectedLineIdx];
 }

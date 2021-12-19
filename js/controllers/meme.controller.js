@@ -16,7 +16,7 @@ function initMeme(imgId) {
    addTouchListeners();
    renderStickers()
    setImg(imgId);
-   renderMeme();
+   onLoadMeme()
 }
 
 function setCanvasHeight(imgId) {
@@ -61,8 +61,8 @@ function onDown(ev) {
 }
 
 function onMove(ev) {
-   const line = getLine();
-   if (!line.isDrag) return;
+   const line = getSelectedLine();
+   if (!line || !line.isDrag) return;
    const pos = getEvPos(ev);
    const dx = pos.x - gStartPos.x;
    const dy = pos.y - gStartPos.y;
@@ -77,43 +77,59 @@ function onUp() {
    // document.querySelector('input[name="txt"]').focus();
 }
 
+function onLoadMeme() {
+   const meme = getMeme();
+   const image = new Image()
+   image.src = `./images/memes/${meme.selectedImgId}.jpg`
+   image.onload = () => {
+      renderMeme()
+   }
+}
 function renderMeme() {
    const meme = getMeme();
    let elImg = getElImgById(meme.selectedImgId)
    if (!meme.selectedImgId) elImg = document.querySelector('.test-img')
-   gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height);
+   gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height)
    if (meme.lines.length) {
       meme.lines.forEach((line, i) => {
          drawLine(line);
          if (i === meme.selectedLineIdx && meme.selectedLineIdx >= 0) markSelectedLine(meme.lines[meme.selectedLineIdx]);
       })
    }
+   // gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height);
+   /*   elImg.onload = () => {
+        console.log('hi');
+        gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height)
+     }; */
+   // if (meme.lines.length) {
+   //    meme.lines.forEach((line, i) => {
+   //       drawLine(line);
+   //       if (i === meme.selectedLineIdx && meme.selectedLineIdx >= 0) markSelectedLine(meme.lines[meme.selectedLineIdx]);
+   //    })
+   // }
 }
 
-function drawLine(line) {
-   const x = line.pos.x;
-   const y = line.pos.y;
+function drawLine({ pos: { x, y }, txt, size, fontFam, fillC, strokeC, align }) {
    gCtx.textBaseline = 'middle';
-   gCtx.textAlign = line.align;
+   gCtx.textAlign = align;
    gCtx.lineWidth = 1;
-   gCtx.strokeStyle = line.strokeC;
-   gCtx.font = `${line.size}px ${line.fontFam}`;
-   gCtx.fillStyle = line.fillC;
-   gCtx.fillText(line.txt, x, y);
-   gCtx.strokeText(line.txt, x, y);
+   gCtx.strokeStyle = strokeC;
+   gCtx.font = `${size}px ${fontFam}`;
+   gCtx.fillStyle = fillC;
+   gCtx.fillText(txt, x, y);
+   gCtx.strokeText(txt, x, y);
 }
 
 function markSelectedLine(line) {
-   const x = line.pos.x;
-   const y = line.pos.y;
-   const lineHeight = line.size + 20;
-   const lineWidth = gCtx.measureText(line.txt).width;
+   const { pos: { x, y }, align, size, txt } = line;
+   const lineHeight = size + 20;
+   const lineWidth = gCtx.measureText(txt).width;
    gCtx.beginPath();
-   if (line.align === 'start') {
+   if (align === 'start') {
       gCtx.rect(x, y - (lineHeight / 2), lineWidth, lineHeight);
-   } else if (line.align === 'center') {
+   } else if (align === 'center') {
       gCtx.rect(x - (lineWidth / 2), y - (lineHeight / 2), lineWidth, lineHeight);
-   } else if (line.align === 'end') {
+   } else if (align === 'end') {
       gCtx.rect(x - lineWidth, y - (lineHeight / 2), lineWidth, lineHeight);
    }
    gCtx.lineWidth = 2;
@@ -124,10 +140,14 @@ function markSelectedLine(line) {
 }
 
 function renderLineValues(line) {
-   for (let sett in line) {
-      if (sett === 'size' || sett === 'align' || sett === 'pos' || sett === 'isDrag') continue;
-      document.querySelector(`.tools-bar [name="${sett}"]`).value = line[sett];
-   }
+   const propsToIgnore = ['size', 'align', 'pos', 'isDrag']
+   Object.keys(line).forEach((prop) => {
+      if (!propsToIgnore.includes(prop)) document.querySelector(`.tools-bar [name="${prop}"]`).value = line[prop];
+   })
+   // for (let prop in line) {
+   //    if (propsToIgnore.includes(prop)) continue;
+   //    document.querySelector(`.tools-bar [name="${prop}"]`).value = line[prop];
+   // }
 }
 
 function onSetText(txt) {
@@ -173,7 +193,7 @@ function onDeleteLine() {
 
 function renderStickers() {
    let strHTMLs = '';
-   for (var i = gStickersIdx; i < gStickersIdx + 3; i++) {
+   for (var i = gStickersIdx; i < gStickersIdx + 4; i++) {
       strHTMLs += `<button class="sticker" onclick="onStickerClick('${gStickers[i]}')">${gStickers[i]}</button>`
    }
    document.querySelector('.stickers-display').innerHTML = strHTMLs;
@@ -181,8 +201,8 @@ function renderStickers() {
 
 function onScrollStickers(diff) {
    const stickersIdx = gStickersIdx + diff;
-   if (stickersIdx < 0) gStickersIdx = gStickers.length - 3;
-   else if (stickersIdx > (gStickers.length - 3)) gStickersIdx = 0;
+   if (stickersIdx < 0) gStickersIdx = gStickers.length - 4;
+   else if (stickersIdx > (gStickers.length - 4)) gStickersIdx = 0;
    else gStickersIdx = stickersIdx;
    renderStickers();
 }
@@ -214,7 +234,6 @@ function onSaveMeme() {
    navigateTo('saved');
    renderSaved();
 }
-
 
 function getElImgById(imgId) {
    return document.querySelector(`[src="./images/memes/${imgId}.jpg"]`)
